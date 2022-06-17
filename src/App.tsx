@@ -7,6 +7,7 @@ let renderCount = 0;
 type FromValues = {
   firstName: string;
   lastName: string;
+  number: number;
   pets: { name: string }[];
 };
 
@@ -18,10 +19,12 @@ function App() {
     // watch,
     formState: { errors },
   } = useForm<FromValues>({
-    mode: "onChange",
+    mode: "all",
+    // delayError: 1,
     defaultValues: {
       firstName: "Ibrokhim",
       lastName: "Ismoilov",
+      number: 0,
       pets: [],
     },
   });
@@ -62,15 +65,34 @@ function App() {
         />
         {errors?.lastName && <p>{errors?.lastName?.message}</p>}
 
+        <input
+          type="number"
+          {...register("number", {
+            valueAsNumber: true,
+            required: true,
+            // required: {
+            //   value: true,
+            //   message: "Majburiy",
+            // },
+            // minLength: { value: 4, message: "kamida 4ta simvol" },
+          })}
+        />
+        {errors?.number && <p>{errors?.number?.message}</p>}
+
         <p>Pets</p>
 
         <div>
           {fields.map((field, index) => {
             return (
-              <input
-                key={field.id}
-                {...register(`pets.${index}.name`, { required: "Majburiy" })}
-              />
+              <div key={field.id}>
+                <input
+                  {...register(`pets.${index}.name`, {
+                    required: "Majburiy",
+                    min: 4,
+                  })}
+                />
+                {/* <p>{errors?.pets?[index].name}</p> */}
+              </div>
             );
           })}
         </div>
