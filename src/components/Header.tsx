@@ -6,6 +6,8 @@ type HeaderTypes = {
 };
 
 export const Header = ({ renderCount, title }: HeaderTypes) => {
+  console.log(renderCount);
+
   return (
     <header>
       <h2>Render count: {renderCount}</h2>
