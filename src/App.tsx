@@ -25,6 +25,7 @@ function App() {
     reset,
     resetField,
     getValues,
+    setError,
   } = useForm<FromValues>({
     mode: "onChange",
     // delayError: 1,
@@ -94,6 +95,11 @@ function App() {
             minLength: { value: 4, message: "kamida 4ta simvol" },
           })}
         />
+
+        {formState.errors.yourDetails?.firstName && (
+          <p>{formState.errors.yourDetails?.firstName.message}</p>
+        )}
+
         <input
           {...register("yourDetails.lastName", {
             required: {
@@ -111,6 +117,17 @@ function App() {
             required: true,
           })}
         />
+
+        <button
+          type="button"
+          onClick={() =>
+            setError(
+              "yourDetails.firstName",
+              { type: "custom", message: "Error firstName message" },
+              { shouldFocus: true }
+            )
+          }
+        ></button>
 
         <button
           onClick={() => {
