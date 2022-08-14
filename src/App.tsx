@@ -26,6 +26,8 @@ function App() {
     resetField,
     getValues,
     setError,
+    clearErrors,
+    setFocus,
   } = useForm<FromValues>({
     mode: "onChange",
     // delayError: 1,
@@ -61,6 +63,10 @@ function App() {
     yourDetails: { firstName },
   } = watch();
 
+  useEffect(() => {
+    setFocus("yourDetails.number", { shouldSelect: true });
+  }, [setFocus]);
+
   const onSubmit = async (data: FromValues) => {
     // await setTimeout(() => console.log(data), 3000);
   };
@@ -80,6 +86,8 @@ function App() {
 
     // eslint-disable-next-line
   }, [formState, reset]);
+
+  console.log("Error", formState.errors);
 
   return (
     <div className="App">
@@ -127,7 +135,16 @@ function App() {
               { shouldFocus: true }
             )
           }
-        ></button>
+        >
+          Set Error Firstname
+        </button>
+
+        <button
+          type="button"
+          onClick={() => clearErrors("yourDetails.firstName")}
+        >
+          Clear Error Firstname or all
+        </button>
 
         <button
           onClick={() => {
