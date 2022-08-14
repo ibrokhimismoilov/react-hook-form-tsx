@@ -23,6 +23,7 @@ function App() {
     setValue,
     formState,
     reset,
+    resetField,
     getValues,
   } = useForm<FromValues>({
     mode: "onChange",
@@ -30,7 +31,7 @@ function App() {
     defaultValues: {
       yourDetails: {
         firstName: "asd",
-        lastName: "asd",
+        lastName: "",
         number: 0,
       },
     },
@@ -50,10 +51,10 @@ function App() {
   //   console.log("touchedFields ", formState.touchedFields); // tanlangan fielddan blur bo'lgan holati.
   // }, [formState]);
 
-  useEffect(() => {
-    const subscriptsion = watch((data) => console.log(data));
-    return () => subscriptsion.unsubscribe();
-  }, [watch]);
+  // useEffect(() => {
+  //   const subscriptsion = watch((data) => console.log(data));
+  //   return () => subscriptsion.unsubscribe();
+  // }, [watch]);
 
   const {
     yourDetails: { firstName },
@@ -138,6 +139,10 @@ function App() {
           }
         >
           reset
+        </button>
+
+        <button onClick={() => resetField("yourDetails.lastName")}>
+          resetField LastName
         </button>
 
         <input type="submit" />
