@@ -26,11 +26,11 @@ function App() {
     resetField,
     getValues,
     setError,
-
     clearErrors,
     setFocus,
+    trigger,
   } = useForm<FromValues>({
-    mode: "onChange",
+    mode: "onSubmit",
     // delayError: 1,
     defaultValues: {
       yourDetails: {
@@ -60,9 +60,11 @@ function App() {
   //   return () => subscriptsion.unsubscribe();
   // }, [watch]);
 
-  const {
-    yourDetails: { firstName },
-  } = watch();
+  const firstName = watch("yourDetails.firstName");
+
+  // useEffect(() => {
+  //   setValue("yourDetails.firstName", firstName + "asd", { shouldDirty: true });
+  // }, [firstName]);
 
   useEffect(() => {
     setFocus("yourDetails.number", { shouldSelect: true });
@@ -102,6 +104,7 @@ function App() {
               message: "Majburiy",
             },
             minLength: { value: 4, message: "kamida 4ta simvol" },
+            maxLength: { value: 16, message: "kamida 16ta simvol" },
           })}
         />
 
@@ -178,6 +181,17 @@ function App() {
 
         <button onClick={() => resetField("yourDetails.lastName")}>
           resetField LastName
+        </button>
+
+        <button
+          onClick={async () => {
+            const outputTriger = await trigger("yourDetails.firstName", {
+              shouldFocus: true,
+            });
+            console.log("outputTriger", outputTriger);
+          }}
+        >
+          Trigger FirstName
         </button>
 
         <input type="submit" />
